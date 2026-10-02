@@ -37,18 +37,22 @@ export function initDeck(deck: HTMLElement) {
     const c = top();
     const w = deck.clientWidth;
     const finish = () => {
-      // Snap the thrown card to the back without animating it across the deck.
+      // The card is invisible now: move it to the back without animating it
+      // across the deck, then let it fade back in there.
       c.style.transition = 'none';
       c.style.transform = '';
       order.push(order.shift()!);
       layout(true);
       void c.offsetWidth;
       c.style.transition = '';
+      c.style.opacity = '';
       busy = false;
     };
     if (reduce) return finish();
-    c.style.transition = 'transform 0.42s cubic-bezier(0.3, 0.6, 0.3, 1)';
+    c.style.transition =
+      'transform 0.42s cubic-bezier(0.3, 0.6, 0.3, 1), opacity 0.42s ease-in';
     c.style.transform = `translate(${dir * w * 1.1}px, -48px) rotate(${dir * 24}deg)`;
+    c.style.opacity = '0';
     window.setTimeout(finish, 420);
   };
 
