@@ -68,7 +68,7 @@ const { event, ctfUrl } = site;
         </div>
         <div>
           <dt class="text-sm text-fg-muted">Format</dt>
-          <dd class="font-display text-lg">{event.mode}</dd>
+          {event.mode.map((m) => <dd class="font-display text-lg">{m}</dd>)}
         </div>
         <div>
           <dt class="text-sm text-fg-muted">Venue</dt>

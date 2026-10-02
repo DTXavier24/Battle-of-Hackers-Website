@@ -16,8 +16,12 @@ npm test         # validates src/data/timeline.json
 
 ## Common edits
 
-**Enable the Join CTF button.** Set `ctfUrl` in `src/data/site.ts` to the CTFd URL.
-While it is `null` the button renders disabled with a "Coming soon" note.
+**Join CTF button.** `ctfUrl` in `src/data/site.ts` sets its target. It currently
+points at the `#iboh-2026` registration section; set it to the CTFd URL once that is
+live. While it is `null` the button renders disabled with a "Coming soon" note.
+
+**Registration categories.** Edit `categories` in `src/data/site.ts` (name, image under
+`public/`, registration link). They render in the IBOH 2026 section.
 
 **Event details, socials.** Edit `src/data/site.ts`.
 
@@ -35,9 +39,9 @@ entry to `src/data/timeline.json`:
 }
 ```
 
-Set `"status": "upcoming"` for a future edition; it gets a red node and an
-"Incoming" badge. A poster is optional for upcoming entries (a teaser works well);
-without one a styled placeholder tile is shown. `npm test` catches malformed
+Set `"status": "upcoming"` for a future edition; it gets a red node and
+year. A poster is optional for upcoming entries (a teaser works well); without one
+a placeholder tile with an "Incoming" badge is shown. `npm test` catches malformed
 entries and missing poster files.
 
 **Logos.** Put `fsec-ss.png` and `apu.png` in `public/logos/`. The host section and
@@ -49,7 +53,7 @@ footer pick them up automatically and fall back to text marks otherwise.
 
 ```
 src/data/        site config, timeline data and its schema
-src/components/  Hero, Host, Timeline, TimelineEntry, SideRail, Footer
+src/components/  Hero, Host, Timeline, TimelineEntry, Register, SideRail, Footer
 src/scripts/     rail active-section observer, scroll reveal
 src/styles/      design tokens and shared utilities
 images/          original poster files (source archive, not served)

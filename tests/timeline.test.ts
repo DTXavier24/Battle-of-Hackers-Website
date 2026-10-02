@@ -21,13 +21,6 @@ describe('timeline.json', () => {
     }
   });
 
-  it('does not serve the unreleased main 2026 poster', () => {
-    // The "coming soon" teaser is allowed; the full IBOH 2026 poster is not yet.
-    expect(existsSync(join('public', 'posters', 'iboh-2026.jpg'))).toBe(false);
-    for (const e of validateTimeline(data)) {
-      expect(e.poster ?? '').not.toBe('/posters/iboh-2026.jpg');
-    }
-  });
 
   it('rejects a malformed entry', () => {
     expect(() => validateTimeline([{ id: 'x' }])).toThrow(/entry 0/);

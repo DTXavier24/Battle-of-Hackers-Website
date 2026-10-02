@@ -1,0 +1,46 @@
+---
+import { site } from '../data/site';
+
+const { event, categories } = site;
+---
+
+<section id="iboh-2026" class="mx-auto max-w-6xl px-6 py-24 md:px-10 lg:pr-28">
+  <div class="max-w-2xl">
+    <h2 class="font-display text-4xl font-bold leading-tight text-fg md:text-5xl">IBOH 2026</h2>
+    <p class="mt-4 leading-relaxed text-fg-muted">
+      Two categories, {event.day} {event.month} {event.year}. Pick your battlefield and register
+      your team.
+    </p>
+  </div>
+
+  <ul class="mt-16 grid gap-12 md:grid-cols-2">
+    {
+      categories.map((c) => (
+        <li class="hud bg-line p-px">
+          <article class="hud flex h-full flex-col gap-6 bg-bg-2 p-6 sm:p-7" style="--c: 17px">
+            <h3 class="font-display text-2xl font-bold text-cyan">{c.name}</h3>
+            <img
+              src={c.image}
+              alt={`IBOH 2026 ${c.name} poster`}
+              width="1080"
+              height="1350"
+              loading="lazy"
+              decoding="async"
+              class="hud block h-auto w-full"
+              style="--c: 12px"
+            />
+            <a
+              href={c.registerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hud mt-auto inline-flex items-center justify-center bg-cyan px-8 py-4 font-display text-lg font-semibold text-bg transition-colors hover:bg-fg"
+            >
+              Register now
+              <span class="sr-only"> for {c.name} (opens in a new tab)</span>
+            </a>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</section>

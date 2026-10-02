@@ -10,15 +10,33 @@ export const site = {
     university: 'Asia Pacific University of Technology & Innovation',
   },
 
-  /** Set to the CTFd URL (e.g. "https://ctf.example.edu") to enable the button. */
-  ctfUrl: null as string | null,
+  /**
+   * Target of the "Join CTF" button: a URL or an in-page anchor. Set to null to
+   * render the button disabled with a "Coming soon" note.
+   */
+  ctfUrl: '#iboh-2026' as string | null,
+
+  /** Competition categories shown in the IBOH 2026 registration section. */
+  categories: [
+    {
+      name: 'Jeopardy',
+      image: '/iboh-2026/jeopardy.png',
+      registerUrl: 'https://bit.ly/IBOH2026_Registration_Forms_FSECSS',
+    },
+    {
+      name: 'Attack & Defense',
+      image: '/iboh-2026/attack-defense.png',
+      registerUrl: 'https://bit.ly/IBOH26_AD_RegistrationForm_FSECSS',
+    },
+  ],
 
   event: {
     day: '14',
     month: 'November',
     year: '2026',
     time: '8:30 AM to 6:00 PM',
-    mode: 'Hybrid, on campus and online',
+    /** One line per competition category. */
+    mode: ['Jeopardy: Hybrid, on campus and online', 'A&D: Offline only'],
     venue: 'APU Campus, Kuala Lumpur',
     audience: 'Open to local and international students',
   },
