@@ -53,12 +53,16 @@ footer pick them up automatically and fall back to text marks otherwise.
 **Motion.** The portal hero is bound to scroll position, so it reverses when scrolling
 up. Entry reveals fire once. The mascot (`src/components/Mascot.astro`) peeks in from
 the right edge when the About section arrives, stays put while you scroll, and
-ducks out when the footer comes into view.
+ducks out when the footer comes into view. All motion is skipped when the visitor has
+reduced motion turned on, and the page then renders in its finished state.
 
 **Cursor trail.** A thin cyan line trails the mouse on desktop only (a mouse, at
 least 1024px wide, reduced motion off). Colour, width, opacity and length are the
-defaults in `src/scripts/cursor-trail.ts`. All motion is skipped when the visitor has
-reduced motion turned on, and the page then renders in its finished state.
+defaults in `src/scripts/cursor-trail.ts`.
+
+**Dot glow.** On desktop the dotted background lights up in a soft circle around
+the mouse. The glow colour, dot size and circle radius are on `.dot-glow` in
+`src/styles/global.css`.
 
 **Copy to replace.** Search the source for `PLACEHOLDER` to find draft text.
 
@@ -67,10 +71,10 @@ reduced motion turned on, and the page then renders in its finished state.
 ```
 src/data/        site config, timeline data and its schema
 src/components/  Nav, Portal (hero), Statement, Register (deck), Terms, History, TimelineEntry,
-                 Host, Close (footer), JoinButton, Mascot, CursorTrail
+                 Host, Close (footer), JoinButton, Mascot, CursorTrail,
+                 DotGlow
 src/scripts/     scroll-driven portal, card deck, peeking mascot, cursor trail,
-                 nav active-section
-                 observer, scroll reveal
+                 nav active-section observer, scroll reveal
 src/styles/      design tokens and shared utilities
 images/          original poster files (source archive, not served)
 public/posters/  posters served by the site

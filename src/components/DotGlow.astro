@@ -1,0 +1,46 @@
+---
+/**
+ * Lights up the dotted page background around the mouse (desktop only). Must
+ * be a direct child of <body> so its dot grid lines up with the body's.
+ */
+---
+
+<div data-dot-glow class="dot-glow" aria-hidden="true"></div>
+
+<script>
+  const glow = document.querySelector<HTMLElement>('[data-dot-glow]');
+  const desktop = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)');
+
+  if (glow && desktop.matches) {
+    let x = 0;
+    let y = 0;
+    let queued = false;
+    // Page coordinates, so the circle stays under the pointer while scrolling.
+    const apply = () => {
+      queued = false;
+      glow.style.setProperty('--mx', `${x + window.scrollX}px`);
+      glow.style.setProperty('--my', `${y + window.scrollY}px`);
+    };
+    const request = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(apply);
+    };
+
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerType !== 'mouse') return;
+        x = e.clientX;
+        y = e.clientY;
+        glow.classList.add('is-lit');
+        request();
+      },
+      { passive: true },
+    );
+    window.addEventListener('scroll', () => glow.classList.contains('is-lit') && request(), {
+      passive: true,
+    });
+    document.documentElement.addEventListener('mouseleave', () => glow.classList.remove('is-lit'));
+  }
+</script>
