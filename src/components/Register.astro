@@ -4,43 +4,87 @@ import { site } from '../data/site';
 const { event, categories } = site;
 ---
 
-<section id="iboh-2026" class="mx-auto max-w-6xl px-6 py-24 md:px-10 lg:pr-28">
-  <div class="max-w-2xl">
-    <h2 class="font-display text-4xl font-bold leading-tight text-fg md:text-5xl">IBOH 2026</h2>
-    <p class="mt-4 leading-relaxed text-fg-muted">
-      Two categories, {event.day} {event.month} {event.year}. Pick your battlefield and register
-      your team.
-    </p>
-  </div>
+<section id="iboh-2026" class="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
+  <div class="grid items-center gap-16 lg:grid-cols-2">
+    <div class="reveal">
+      <p class="eyebrow flex items-center gap-3 text-red">
+        <span class="block size-1.5 rounded-full bg-red" aria-hidden="true"></span>
+        Registration open
+      </p>
+      <h2
+        class="mt-6 font-display text-5xl font-bold uppercase leading-none tracking-[-0.02em] text-fg md:text-7xl"
+      >
+        IBOH {event.year}
+      </h2>
+      <p class="mt-6 max-w-[46ch] text-lg leading-relaxed text-fg-muted">
+        Two categories on {`${event.day} ${event.month} ${event.year}`}. Jeopardy runs hybrid, on campus and online. Attack & Defense is on campus
+        only. Register your team for either below.
+      </p>
+      <ul class="mt-10 flex flex-wrap gap-3">
+        {
+          categories.map((c, i) => (
+            <li>
+              <a
+                href={c.registerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class:list={['btn', i === 0 ? 'btn-primary' : 'btn-red']}
+              >
+                Register: {c.name}
+                <span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
-  <ul class="mt-16 grid gap-12 md:grid-cols-2">
-    {
-      categories.map((c) => (
-        <li class="hud bg-line p-px">
-          <article class="hud flex h-full flex-col gap-6 bg-bg-2 p-6 sm:p-7" style="--c: 17px">
-            <h3 class="font-display text-2xl font-bold text-cyan">{c.name}</h3>
-            <img
-              src={c.image}
-              alt={`IBOH 2026 ${c.name} poster`}
-              width="1080"
-              height="1350"
-              loading="lazy"
-              decoding="async"
-              class="hud block h-auto w-full"
-              style="--c: 12px"
-            />
-            <a
-              href={c.registerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hud mt-auto inline-flex items-center justify-center bg-cyan px-8 py-4 font-display text-lg font-semibold text-bg transition-colors hover:bg-fg"
-            >
-              Register now
-              <span class="sr-only"> for {c.name} (opens in a new tab)</span>
-            </a>
-          </article>
-        </li>
-      ))
-    }
-  </ul>
+    <div data-deck-root class="reveal mx-auto w-full max-w-[540px]">
+      <div
+        data-deck
+        tabindex="0"
+        role="group"
+        aria-roledescription="card deck"
+        aria-label={`IBOH ${event.year} category posters. Drag the top card or use the left and right arrow keys to flip.`}
+        class="deck"
+      >
+        {
+          categories.map((c, i) => (
+            <figure data-card data-name={c.name} class="deck-card" style={`--i: ${i}`}>
+              <img
+                src={c.image}
+                alt={`IBOH ${event.year} ${c.name} poster with registration fees, eligibility and deadlines`}
+                width="1080"
+                height="1350"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+              />
+            </figure>
+          ))
+        }
+      </div>
+      <div class="deck-hint mt-6 flex items-center justify-between gap-4">
+        <p class="eyebrow text-fg-muted">Drag or use &larr; &rarr; to flip</p>
+        <ol class="flex gap-2" aria-hidden="true">
+          {
+            categories.map((c, i) => (
+              <li
+                data-deck-dot
+                data-active={i === 0 ? '' : undefined}
+                title={c.name}
+                class="size-1.5 rounded-full bg-hair transition-colors data-active:bg-cyan"
+              />
+            ))
+          }
+        </ol>
+      </div>
+      <p data-deck-status class="sr-only" aria-live="polite"></p>
+    </div>
+  </div>
 </section>
+
+<script>
+  import { initDeck } from '../scripts/deck';
+  document.querySelectorAll<HTMLElement>('[data-deck]').forEach(initDeck);
+</script>

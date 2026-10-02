@@ -8,6 +8,7 @@
   --color-fg: #f4f6f8;
   --color-fg-muted: #8a94a0;
   --color-line: rgba(72, 224, 224, 0.22);
+  --color-hair: rgba(244, 246, 248, 0.12);
 
   --font-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
   --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
@@ -15,6 +16,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep anchored sections clear of the fixed nav bar. */
+  scroll-padding-top: 58px;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -37,28 +40,13 @@ body {
   outline-offset: 3px;
 }
 
-/* Chamfered HUD panel, the poster's info-box shape. */
+/* Chamfered HUD panel, the poster's info-box shape. Used by the timeline cards. */
 .hud {
   --c: 18px;
   clip-path: polygon(
     var(--c) 0, 100% 0, 100% calc(100% - var(--c)),
     calc(100% - var(--c)) 100%, 0 100%, 0 var(--c)
   );
-}
-.hud-frame {
-  position: relative;
-}
-.hud-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--color-cyan);
-  --c: 18px;
-  clip-path: polygon(
-    var(--c) 0, 100% 0, 100% calc(100% - var(--c)),
-    calc(100% - var(--c)) 100%, 0 100%, 0 var(--c)
-  );
-  z-index: -1;
 }
 
 /* Chromatic offset headline treatment from the poster. */
@@ -68,23 +56,347 @@ body {
     3px 0 0 rgba(240, 92, 85, 0.85);
 }
 
-/* Scroll reveal for the timeline (the one motion moment on the page). */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+/* Small uppercase label, used above headings and for metadata. */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
-.reveal.is-visible {
-  opacity: 1;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.9rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.btn-sm {
+  padding: 0.5rem 1.15rem;
+  font-size: 13px;
+}
+.btn-primary {
+  background: var(--color-cyan);
+  color: var(--color-bg);
+}
+.btn-primary:hover {
+  background: var(--color-fg);
+}
+.btn-red {
+  background: var(--color-red);
+  color: var(--color-bg);
+}
+.btn-red:hover {
+  background: var(--color-fg);
+}
+.btn-ghost {
+  border: 1px solid var(--color-hair);
+  color: var(--color-fg);
+}
+.btn-ghost:hover {
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+.btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  background: transparent;
+  border: 1px solid var(--color-hair);
+  color: var(--color-fg-muted);
+}
+
+/* Outlined index numeral. */
+.numeral {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(72, 224, 224, 0.45);
+}
+
+/* ---------- Portal hero ----------
+ * --open and --t (0..1) are written by scripts/scroll.ts from scroll position.
+ * Without JS or with reduced motion the defaults below render the finished,
+ * opened state and the hero is a single viewport tall.
+ */
+.portal {
+  --open: 1;
+  --t: 1;
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+}
+.motion-ok .portal {
+  --open: 0;
+  --t: 0;
+  height: 250vh;
+}
+.portal-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.portal-image {
+  position: absolute;
+  inset: 0;
+  transform: scale(calc(1.16 - 0.16 * var(--open)));
+  transform-origin: 50% 50%;
+}
+.portal-ambient {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  max-width: none;
+  object-fit: cover;
+  opacity: 0.45;
+}
+.portal-poster {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: min(76svh, 108vw);
+  width: auto;
+  max-width: none;
+  translate: -50% -46%;
+}
+.portal-wash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, var(--color-cyan), var(--color-red));
+  mix-blend-mode: overlay;
+  opacity: calc(0.3 * var(--open));
+}
+.portal-veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(5, 6, 7, 0.88) 100%);
+}
+.portal-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  background-color: var(--color-bg-2);
+  background-image: radial-gradient(rgba(72, 224, 224, 0.13) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.portal-panel-l {
+  left: 0;
+  border-right: 1px solid var(--color-line);
+  transform: translateX(calc(-102% * var(--open)));
+}
+.portal-panel-r {
+  right: 0;
+  border-left: 1px solid var(--color-line);
+  transform: translateX(calc(102% * var(--open)));
+}
+/* Only the motion version starts closed; the static render has no panels. */
+html:not(.motion-ok) .portal-panel,
+html:not(.motion-ok) .portal-dot,
+html:not(.motion-ok) .portal-cue {
+  display: none;
+}
+.portal-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+}
+.portal-dot-a {
+  background: var(--color-cyan);
+  box-shadow: 0 0 14px 3px rgba(72, 224, 224, 0.7);
+  transform: translate(calc(-44vw * var(--open)), calc(-36svh * var(--open)));
+}
+.portal-dot-b {
+  background: var(--color-red);
+  box-shadow: 0 0 14px 3px rgba(240, 92, 85, 0.7);
+  transform: translate(calc(44vw * var(--open)), calc(36svh * var(--open)));
+}
+.portal-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  translate: 0 -50%;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.9;
+  /* Sized so the opened halves land just inside the viewport edges. */
+  font-size: clamp(1.9rem, 5.6vw, 7rem);
+  /* Grow while tightening: the two must move together. */
+  transform: scale(calc(1 + 0.18 * var(--t)));
+  letter-spacing: calc(0.08em - 0.1em * var(--t));
+}
+.portal-half {
+  display: inline-block;
+}
+.portal-half-a {
+  transform: translateX(calc(-50% * var(--t)));
+}
+.portal-half-b {
+  margin-left: 0.3em;
+  transform: translateX(calc(50% * var(--t)));
+}
+/* Phones: one half per line, so each has room to travel. */
+@media (max-width: 639px) {
+  .portal-title {
+    white-space: normal;
+    font-size: clamp(1.75rem, 8vw, 3rem);
+  }
+  .portal-half {
+    display: block;
+    width: fit-content;
+    margin-inline: auto;
+  }
+  .portal-half-b {
+    margin-left: auto;
+  }
+}
+.portal-cue {
+  opacity: calc(1 - 3 * var(--open));
+}
+
+/* ---------- Throwable deck ---------- */
+.deck {
+  position: relative;
+  aspect-ratio: 1;
+  touch-action: pan-y;
+  user-select: none;
+  outline-offset: 6px;
+}
+.deck-card {
+  --i: 0;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  height: 86%;
+  aspect-ratio: 4 / 5;
+  translate: -50% 0;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: grab;
+  background: var(--color-bg-2);
+  box-shadow:
+    0 24px 48px -16px rgba(0, 0, 0, 0.75),
+    0 0 0 1px var(--color-hair);
+  transform: translate(calc(var(--i) * 16px), calc(var(--i) * -12px)) scale(calc(1 - var(--i) * 0.05))
+    rotate(calc(var(--i) * 3.5deg));
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.deck-card:active {
+  cursor: grabbing;
+}
+.deck-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+/* Without JS the deck can't be flipped, so lay the cards out side by side. */
+html:not(.js) .deck {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  aspect-ratio: auto;
+}
+html:not(.js) .deck-card {
+  position: static;
+  height: auto;
+  width: 100%;
+  translate: none;
   transform: none;
 }
+html:not(.js) .deck-hint {
+  display: none;
+}
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .deck-card {
     transition: none;
   }
   .motion-pulse {
     animation: none !important;
   }
+}
+
+/* ---------- Peeking mascot ----------
+ * Pinned to the right edge; scripts/mascot.ts drives --x and --y.
+ * Starts off-screen, so without JS it never appears.
+ */
+.mascot {
+  --x: 105%;
+  --y: 0px;
+  position: fixed;
+  right: 0;
+  top: 50%;
+  z-index: 40;
+  width: clamp(165px, 21vw, 345px);
+  margin-top: calc(clamp(165px, 21vw, 345px) * -0.625);
+  pointer-events: none;
+  transform: translateX(var(--x)) translateY(var(--y));
+}
+.mascot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Phones: smaller and tucked low so it doesn't sit on top of the text. */
+@media (max-width: 767px) {
+  .mascot {
+    top: auto;
+    bottom: 6svh;
+    width: 144px;
+    margin-top: 0;
+  }
+}
+
+/* ---------- Cursor trail (desktop only) ----------
+ * Above the content, below the mascot (40) and the nav (50). Clicks pass
+ * straight through.
+ */
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+@media not ((hover: hover) and (pointer: fine) and (min-width: 1024px)) {
+  .cursor-trail {
+    display: none;
+  }
+}
+
+/* ---------- Entry reveals ----------
+ * Fire once, never un-reveal. Scoped to .motion-ok so the reduced-motion and
+ * no-JS renders show the finished page.
+ */
+.motion-ok .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.motion-ok .reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }

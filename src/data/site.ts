@@ -20,15 +20,47 @@ export const site = {
   categories: [
     {
       name: 'Jeopardy',
-      image: '/iboh-2026/jeopardy.png',
+      image: '/iboh-2026/jeopardy.webp',
       registerUrl: 'https://bit.ly/IBOH2026_Registration_Forms_FSECSS',
     },
     {
       name: 'Attack & Defense',
-      image: '/iboh-2026/attack-defense.png',
+      image: '/iboh-2026/attack-defense.webp',
       registerUrl: 'https://bit.ly/IBOH26_AD_RegistrationForm_FSECSS',
     },
   ],
+
+  /**
+   * Registration terms per category, transcribed from the official category
+   * posters. Deadlines are 23:59 GMT+8.
+   */
+  terms: [
+    {
+      category: 'Jeopardy',
+      division: 'National',
+      format: 'Physical or online',
+      team: '1 to 3 members',
+      fee: 'RM150 physical, RM100 online',
+      closes: '2 Nov physical, 5 Nov online',
+    },
+    {
+      category: 'Jeopardy',
+      division: 'International',
+      format: 'Physical or online',
+      team: '1 to 3 members, cross-university teams allowed',
+      fee: 'USD35 physical, USD25 online',
+      closes: '2 Nov physical, 5 Nov online',
+    },
+    {
+      category: 'Attack & Defense',
+      division: 'Local teams only',
+      format: 'Physical only',
+      team: '1 to 3 members, one organisation per team, 10 teams max',
+      fee: 'RM200 per team',
+      closes: '2 Nov',
+    },
+  ],
+  termsNote: 'All deadlines 23:59 GMT+8. Shirts are provided for physical participants only.',
 
   event: {
     day: '14',

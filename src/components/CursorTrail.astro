@@ -1,0 +1,15 @@
+<!--
+  Desktop-only subtle cursor trail. Only starts on a device with a mouse, at
+  least 1024px wide, with reduced motion off.
+-->
+<div data-cursor-trail class="cursor-trail" aria-hidden="true"></div>
+
+<script>
+  import { createCursorTrail } from '../scripts/cursor-trail';
+
+  const host = document.querySelector<HTMLElement>('[data-cursor-trail]');
+  const desktop = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)');
+  if (host && desktop.matches && document.documentElement.classList.contains('motion-ok')) {
+    createCursorTrail(host);
+  }
+</script>

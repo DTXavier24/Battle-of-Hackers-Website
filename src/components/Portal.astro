@@ -1,0 +1,73 @@
+---
+import { site } from '../data/site';
+
+const { event } = site;
+const poster = '/posters/iboh-2026.webp';
+// Pre-blurred, low-res copy of the poster; cheaper than a live CSS blur.
+const ambient = '/posters/iboh-2026-ambient.webp';
+---
+
+<section id="home" data-portal class="portal" aria-labelledby="portal-title">
+  <div class="portal-stage">
+    <div class="portal-image">
+      <img src={ambient} alt="" aria-hidden="true" class="portal-ambient" />
+      <img
+        src={poster}
+        alt={`International Battle of Hackers ${event.year} poster: ${event.day} ${event.month} ${event.year}, ${event.time}, ${event.venue}.`}
+        width="1080"
+        height="1350"
+        fetchpriority="high"
+        class="portal-poster"
+      />
+    </div>
+    <div class="portal-wash" aria-hidden="true"></div>
+    <div class="portal-veil" aria-hidden="true"></div>
+
+    <div class="portal-panel portal-panel-l" aria-hidden="true"></div>
+    <div class="portal-panel portal-panel-r" aria-hidden="true"></div>
+    <span class="portal-dot portal-dot-a" aria-hidden="true"></span>
+    <span class="portal-dot portal-dot-b" aria-hidden="true"></span>
+
+    <h1 id="portal-title" class="portal-title">
+      <span class="sr-only">APU </span><span class="portal-half portal-half-a glitch text-fg"
+        >Battle of</span
+      >
+      <span class="portal-half portal-half-b text-cyan">Hackers</span>
+    </h1>
+
+    <div
+      class="absolute inset-x-0 top-[82px] flex justify-between gap-6 px-5 md:px-10"
+    >
+      <p class="eyebrow leading-relaxed">
+        <span class="text-red">IBOH {event.year}</span><br class="max-sm:hidden" />
+        <span class="text-fg-muted max-sm:hidden">{event.audience}</span>
+      </p>
+      <p class="eyebrow text-right leading-relaxed">
+        <span class="text-fg">{event.day} {event.month} {event.year}</span><br />
+        <span class="text-fg-muted">{event.time}</span>
+      </p>
+    </div>
+
+    <div class="absolute inset-x-0 bottom-6 flex items-end justify-between gap-6 px-5 md:px-10">
+      <p class="eyebrow leading-relaxed">
+        <span class="text-fg">{event.venue}</span><br />
+        {
+          event.mode.map((m) => (
+            <>
+              <span class="text-fg-muted">{m}</span>
+              <br />
+            </>
+          ))
+        }
+      </p>
+      <p class="portal-cue eyebrow hidden items-center gap-3 text-fg-muted sm:flex" aria-hidden="true">
+        Scroll to open <span class="block h-px w-10 bg-cyan"></span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initScrollFx } from '../scripts/scroll';
+  initScrollFx();
+</script>

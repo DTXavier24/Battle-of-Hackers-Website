@@ -30,5 +30,4 @@ export function initRail(navSelector = '[data-rail]') {
     { threshold: [0.25, 0.5, 0.75] },
   );
   sections.forEach((s) => io.observe(s));
-  if (sections[0]) setActive(sections[0].id);
 }

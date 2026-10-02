@@ -6,9 +6,13 @@ import TimelineEntry from './TimelineEntry.astro';
 const entries = validateTimeline(data);
 ---
 
-<section id="history" class="mx-auto max-w-7xl px-6 py-24 md:px-10 lg:pr-28">
-  <div class="max-w-2xl">
-    <h2 class="font-display text-4xl font-bold leading-tight text-fg md:text-5xl">
+<section id="history" class="mx-auto max-w-7xl px-5 py-24 md:px-10">
+  <div class="reveal max-w-2xl">
+    <p class="eyebrow flex items-center gap-3 text-cyan">
+      <span class="block size-1.5 rounded-full bg-cyan" aria-hidden="true"></span>
+      History
+    </p>
+    <h2 class="mt-6 font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-fg md:text-5xl">
       A decade of battles
     </h2>
     <p class="mt-4 leading-relaxed text-fg-muted">
@@ -23,8 +27,3 @@ const entries = validateTimeline(data);
     {entries.map((entry, index) => <TimelineEntry entry={entry} index={index} />)}
   </ol>
 </section>
-
-<script>
-  import { initReveal } from '../scripts/reveal';
-  initReveal();
-</script>

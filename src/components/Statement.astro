@@ -1,0 +1,31 @@
+---
+import JoinButton from './JoinButton.astro';
+---
+
+<section id="about" class="relative flex min-h-screen items-center overflow-hidden py-24">
+  <div class="relative z-10 mx-auto w-full max-w-7xl px-5 md:px-10">
+    <span class="numeral pointer-events-none absolute -top-24 right-5 select-none text-[clamp(110px,18vw,260px)] md:right-10" aria-hidden="true">01</span>
+
+    <div class="reveal relative">
+      <p class="eyebrow flex items-center gap-3 text-cyan">
+        <span class="block size-1.5 rounded-full bg-cyan" aria-hidden="true"></span>
+        The competition
+      </p>
+      <!-- PLACEHOLDER: replace with the club's official summary. -->
+      <h2
+        class="mt-8 max-w-[22ch] font-display text-[clamp(24px,3.6vw,52px)] font-semibold leading-[1.12] tracking-[-0.02em] text-fg"
+      >
+        One day, one board, every category. Battle of Hackers is APU's annual capture-the-flag,{' '}
+        <span class="text-red">now open to teams from anywhere in the world.</span>
+      </h2>
+      <p class="mt-8 max-w-[52ch] leading-relaxed text-fg-muted">
+        Run by students of APU's forensic and cybersecurity research centre, from an in-house
+        contest in 2016 to an international competition.
+      </p>
+      <div class="mt-10">
+        <JoinButton />
+      </div>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,26 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+const { ctfUrl } = site;
+---
+
+{
+  ctfUrl ? (
+    <a href={ctfUrl} class:list={['btn btn-primary', className]}>
+      Join CTF
+    </a>
+  ) : (
+    <span
+      role="link"
+      aria-disabled="true"
+      title="Coming soon. The CTF platform opens closer to the event."
+      class:list={['btn', className]}
+    >
+      Join CTF
+    </span>
+  )
+}

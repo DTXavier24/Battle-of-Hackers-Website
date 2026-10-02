@@ -1,0 +1,89 @@
+---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { site } from '../data/site';
+import JoinButton from './JoinButton.astro';
+
+const { event } = site;
+const year = new Date().getFullYear();
+// Build runs from the project root, so resolve against cwd rather than
+// import.meta.url (which points inside dist/ during prerender).
+const hasLogo = (path: string) => existsSync(join(process.cwd(), 'public', path));
+const fsecLogo = hasLogo('/logos/fsec-ss.png');
+// apu.png is the white-on-transparent variant made for dark backgrounds.
+const apuLogo = hasLogo('/logos/apu.png');
+const discord = site.socials.find((s) => s.label === 'Discord');
+---
+
+<footer class="border-t border-hair">
+  <div class="mx-auto max-w-7xl px-5 pt-24 md:px-10">
+    <div class="reveal flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+      <div>
+        <h2 class="font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-fg md:text-6xl">
+          See you on {event.day} {event.month}<span class="text-red">.</span>
+        </h2>
+        <p class="eyebrow mt-5 text-fg-muted">
+          {event.venue} &middot; {event.time}
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <JoinButton />
+        {
+          discord && (
+            <a href={discord.href} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+              Join the Discord
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <div
+      class="mt-20 flex flex-col gap-8 border-t border-hair py-8 lg:flex-row lg:items-center lg:justify-between"
+    >
+      <div class="flex items-center gap-5">
+        {
+          fsecLogo ? (
+            <img src="/logos/fsec-ss.png" alt={site.host.full} width="197" height="197" class="size-10" />
+          ) : (
+            <span class="font-display font-bold text-fg">{site.host.short}</span>
+          )
+        }
+        {
+          apuLogo ? (
+            <img
+              src="/logos/apu.png"
+              alt={site.host.university}
+              width="1024"
+              height="298"
+              class="h-9 w-auto"
+            />
+          ) : (
+            <span class="font-display font-bold text-fg">APU</span>
+          )
+        }
+      </div>
+
+      <ul class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        {
+          site.socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target={s.href.startsWith('mailto:') ? undefined : '_blank'}
+                rel={s.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                class="eyebrow text-fg-muted transition-colors hover:text-red"
+              >
+                {s.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="eyebrow text-fg-muted">
+        &copy; {year} {site.host.short}, {site.host.university}
+      </p>
+    </div>
+  </div>
+</footer>

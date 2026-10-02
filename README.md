@@ -18,10 +18,14 @@ npm test         # validates src/data/timeline.json
 
 **Join CTF button.** `ctfUrl` in `src/data/site.ts` sets its target. It currently
 points at the `#iboh-2026` registration section; set it to the CTFd URL once that is
-live. While it is `null` the button renders disabled with a "Coming soon" note.
+live. While it is `null` the buttons render disabled with a "Coming soon" tooltip.
 
 **Registration categories.** Edit `categories` in `src/data/site.ts` (name, image under
-`public/`, registration link). They render in the IBOH 2026 section.
+`public/`, registration link). They render as the card deck in the IBOH 2026
+section. The fees table below it reads from `terms` and `termsNote` in the same file.
+
+**Hero poster.** The portal hero reveals `public/posters/iboh-2026.webp` over a
+pre-blurred copy, `iboh-2026-ambient.webp`. Replace both when the poster changes.
 
 **Event details, socials.** Edit `src/data/site.ts`.
 
@@ -39,13 +43,22 @@ entry to `src/data/timeline.json`:
 }
 ```
 
-Set `"status": "upcoming"` for a future edition; it gets a red node and
-year. A poster is optional for upcoming entries (a teaser works well); without one
-a placeholder tile with an "Incoming" badge is shown. `npm test` catches malformed
-entries and missing poster files.
+Set `"status": "upcoming"` for a future edition; it gets a red node and year. A
+poster is optional; without one a placeholder tile with an "Incoming" badge is shown.
+`npm test` catches malformed entries and missing poster files.
 
 **Logos.** Put `fsec-ss.png` and `apu.png` in `public/logos/`. The host section and
 footer pick them up automatically and fall back to text marks otherwise.
+
+**Motion.** The portal hero is bound to scroll position, so it reverses when scrolling
+up. Entry reveals fire once. The mascot (`src/components/Mascot.astro`) peeks in from
+the right edge when the About section arrives, stays put while you scroll, and
+ducks out when the footer comes into view.
+
+**Cursor trail.** A thin cyan line trails the mouse on desktop only (a mouse, at
+least 1024px wide, reduced motion off). Colour, width, opacity and length are the
+defaults in `src/scripts/cursor-trail.ts`. All motion is skipped when the visitor has
+reduced motion turned on, and the page then renders in its finished state.
 
 **Copy to replace.** Search the source for `PLACEHOLDER` to find draft text.
 
@@ -53,8 +66,11 @@ footer pick them up automatically and fall back to text marks otherwise.
 
 ```
 src/data/        site config, timeline data and its schema
-src/components/  Hero, Host, Timeline, TimelineEntry, Register, SideRail, Footer
-src/scripts/     rail active-section observer, scroll reveal
+src/components/  Nav, Portal (hero), Statement, Register (deck), Terms, History, TimelineEntry,
+                 Host, Close (footer), JoinButton, Mascot, CursorTrail
+src/scripts/     scroll-driven portal, card deck, peeking mascot, cursor trail,
+                 nav active-section
+                 observer, scroll reveal
 src/styles/      design tokens and shared utilities
 images/          original poster files (source archive, not served)
 public/posters/  posters served by the site

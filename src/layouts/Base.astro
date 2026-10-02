@@ -16,6 +16,16 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#050607" />
+    <!--
+      `js` gates the interactive deck; `motion-ok` gates scroll-driven motion and
+      entry reveals. Without them the page renders in its finished state.
+    -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ok');
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,10 +34,10 @@ const { title, description } = Astro.props;
     />
   </head>
   <body class="min-h-screen antialiased">
-    <slot name="rail" />
-    <!-- Right padding below md keeps content clear of the fixed side rail. -->
-    <main class="pr-7 md:pr-0">
+    <slot name="nav" />
+    <main>
       <slot />
     </main>
+    <slot name="footer" />
   </body>
 </html>

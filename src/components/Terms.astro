@@ -1,0 +1,62 @@
+---
+import { site } from '../data/site';
+
+const { terms, termsNote, event } = site;
+const columns = [
+  { key: 'format', label: 'Format' },
+  { key: 'team', label: 'Team' },
+  { key: 'fee', label: 'Fee' },
+  { key: 'closes', label: 'Registration closes' },
+] as const;
+---
+
+<section id="terms" class="mx-auto max-w-7xl px-5 py-24 md:px-10">
+  <div class="reveal flex flex-wrap items-end justify-between gap-6">
+    <div>
+      <p class="eyebrow flex items-center gap-3 text-cyan">
+        <span class="block size-1.5 rounded-full bg-cyan" aria-hidden="true"></span>
+        Categories and fees
+      </p>
+      <h2 class="mt-6 font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-fg md:text-5xl">
+        Pick your board
+      </h2>
+    </div>
+    <p class="eyebrow text-fg-muted">{event.day} {event.month} {event.year}</p>
+  </div>
+
+  <table class="reveal mt-12 w-full text-left">
+    <thead class="max-md:sr-only">
+      <tr class="border-b border-hair">
+        <th scope="col" class="eyebrow pb-4 pr-6 font-medium text-fg-muted">Category</th>
+        {
+          columns.map((c) => (
+            <th scope="col" class="eyebrow pb-4 pr-6 font-medium text-fg-muted last:pr-0">
+              {c.label}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        terms.map((t) => (
+          <tr class="grid grid-cols-2 gap-x-6 gap-y-4 border-b border-hair py-6 md:table-row md:py-0">
+            <th scope="row" class="col-span-2 align-top font-normal md:py-6 md:pr-6">
+              <span class="block font-display text-2xl font-semibold leading-tight text-fg">
+                {t.category}
+              </span>
+              <span class="eyebrow mt-1 block text-red">{t.division}</span>
+            </th>
+            {columns.map((c) => (
+              <td class="align-top text-sm leading-relaxed text-fg-muted md:py-6 md:pr-6 md:last:pr-0">
+                <span class="eyebrow mb-1 block text-fg-muted/70 md:hidden">{c.label}</span>
+                {t[c.key]}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  <p class="mt-6 text-sm text-fg-muted">{termsNote}</p>
+</section>
