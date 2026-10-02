@@ -65,7 +65,10 @@ const { event, categories } = site;
         }
       </div>
       <div class="deck-hint mt-6 flex items-center justify-between gap-4">
-        <p class="eyebrow text-fg-muted">Drag or use &larr; &rarr; to flip</p>
+        <p class="eyebrow text-fg-muted">
+          <span class="hint-pointer">Drag or use &larr; &rarr; to flip</span>
+          <span class="hint-touch">Swipe to flip</span>
+        </p>
         <ol class="flex gap-2" aria-hidden="true">
           {
             categories.map((c, i) => (

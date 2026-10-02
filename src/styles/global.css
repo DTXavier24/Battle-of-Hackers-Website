@@ -257,19 +257,69 @@ html:not(.motion-ok) .portal-cue {
   margin-left: 0.3em;
   transform: translateX(calc(50% * var(--t)));
 }
-/* Phones: one half per line, so each has room to travel. */
+/* Phones: the poster fills the width, so the portal opens vertically. The
+ * panels part top and bottom, and the title halves (one per line) move to sit
+ * just above and below the poster.
+ *
+ * --tf is the title font size; one title line is about 1em tall.
+ * --ph is the poster height: whatever is left after reserving the corner text
+ * and gaps (142px top, 102px bottom) plus a title line at each end, capped by
+ * width. The poster sits 20px below centre because the top reserve is 40px
+ * larger.
+ * Title distances are divided by its end scale (1.08), which multiplies them,
+ * and keep a 12px gap to the poster.
+ */
 @media (max-width: 639px) {
+  .portal-stage {
+    --tf: clamp(1.75rem, 8vw, 3rem);
+    --ph: min(100svh - 244px - 2 * var(--tf), 108vw);
+  }
+  .portal-poster {
+    height: var(--ph);
+    translate: -50% calc(-50% + 20px);
+  }
+  .portal-panel {
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 52%;
+  }
+  .portal-panel-l {
+    top: 0;
+    bottom: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-line);
+    transform: translateY(calc(-102% * var(--open)));
+  }
+  .portal-panel-r {
+    top: auto;
+    bottom: 0;
+    border-left: 0;
+    border-top: 1px solid var(--color-line);
+    transform: translateY(calc(102% * var(--open)));
+  }
   .portal-title {
     white-space: normal;
-    font-size: clamp(1.75rem, 8vw, 3rem);
+    font-size: var(--tf);
+    transform: scale(calc(1 + 0.08 * var(--t)));
   }
   .portal-half {
     display: block;
     width: fit-content;
     margin-inline: auto;
   }
+  .portal-half-a {
+    transform: translateY(calc(var(--t) * (var(--ph) * -0.463 + 7.4px)));
+  }
   .portal-half-b {
     margin-left: auto;
+    transform: translateY(calc(var(--t) * (var(--ph) * 0.463 + 29.6px)));
+  }
+}
+/* Very narrow phones: the bottom corner text wraps to an extra line. */
+@media (max-width: 359px) {
+  .portal-stage {
+    --ph: min(100svh - 264px - 2 * var(--tf), 108vw);
   }
 }
 .portal-cue {
@@ -370,6 +420,20 @@ html:not(.motion-ok) .portal-cue {
   object-fit: cover;
   pointer-events: none;
 }
+/* Touch devices can't drag with a mouse or press arrow keys, so they get their
+ * own wording. Keyed on the primary input, not screen width. */
+.hint-touch {
+  display: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .hint-pointer {
+    display: none;
+  }
+  .hint-touch {
+    display: inline;
+  }
+}
+
 /* Without JS the deck can't be flipped, so lay the cards out side by side. */
 html:not(.js) .deck {
   display: grid;
