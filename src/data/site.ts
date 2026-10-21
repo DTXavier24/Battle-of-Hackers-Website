@@ -62,6 +62,55 @@ export const site = {
   ],
   termsNote: 'All deadlines 23:59 GMT+8. Shirts are provided for physical participants only.',
 
+  /**
+   * Prizes per board, ranked from 1st. `cash` and `value` are in RM; `value` is
+   * the cash plus the stated worth of any `extra` reward.
+   */
+  prizes: [
+    {
+      board: 'International CTF',
+      category: 'Jeopardy',
+      ranks: [
+        { cash: 3500, extra: '3x OffSec PGP, 1-year subscription', value: 7700 },
+        { cash: 2500, extra: '3x OffSec PGP, 6-month subscription', value: 4600 },
+        { cash: 1150, extra: '3x OffSec PGP, 3-month subscription', value: 2150 },
+        { cash: 600, value: 600 },
+        { cash: 450, value: 450 },
+        { cash: 300, value: 300 },
+        { cash: 300, value: 300 },
+        { cash: 150, value: 150 },
+        { cash: 150, value: 150 },
+        { cash: 150, value: 150 },
+      ],
+    },
+    {
+      board: 'Local CTF',
+      category: 'Jeopardy',
+      ranks: [
+        { cash: 2500, extra: '3x OffSec PGP, 1-year subscription', value: 6700 },
+        { cash: 1500, extra: '3x OffSec PGP, 6-month subscription', value: 3600 },
+        { cash: 750, extra: '3x OffSec PGP, 3-month subscription', value: 1750 },
+        { cash: 500, value: 500 },
+        { cash: 300, value: 300 },
+        { cash: 200, value: 200 },
+        { cash: 200, value: 200 },
+        { cash: 100, value: 100 },
+        { cash: 100, value: 100 },
+        { cash: 100, value: 100 },
+      ],
+    },
+    {
+      board: 'Attack & Defense CTF',
+      category: 'Attack & Defense',
+      ranks: [
+        { cash: 2000, extra: 'CPSA voucher', value: 3500 },
+        { cash: 1500, extra: 'CPSA voucher', value: 3000 },
+        { cash: 1000, extra: 'CPSA voucher', value: 2500 },
+        { cash: 0, extra: 'CPSA voucher', value: 1500 },
+      ],
+    },
+  ] as { board: string; category: string; ranks: { cash: number; extra?: string; value: number }[] }[],
+
   event: {
     day: '14',
     month: 'November',
